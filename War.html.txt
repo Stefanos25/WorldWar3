@@ -1,0 +1,886 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>The World at War — A Dossier of Active Conflicts, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0c;
+  --bg-2:#111114;
+  --surface:#15151a;
+  --surface-2:#1c1c24;
+  --border:#26262f;
+  --border-2:#33333f;
+  --ink:#f1ece0;
+  --ink-2:#bcb6a8;
+  --ink-3:#7e7a72;
+  --ink-4:#4d4a45;
+  --kinetic:#c93030;        /* military / blood */
+  --kinetic-2:#7a1f1f;
+  --west:#5b8fd1;            /* steel blue, western bloc */
+  --east:#c43a3a;            /* CRINK red */
+  --trade:#d99334;           /* amber, trade */
+  --tech:#5fb3b8;            /* muted teal, technology */
+  --capital:#c9a25e;         /* gold, money */
+  --influence:#9a78c2;       /* violet, influence */
+  --paper:#e6dec7;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif;font-weight:400;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(201,48,48,.08), transparent 60%),
+    radial-gradient(900px 500px at -10% 30%, rgba(91,143,209,.06), transparent 60%),
+    radial-gradient(800px 600px at 50% 110%, rgba(154,120,194,.05), transparent 60%),
+    var(--bg);
+  background-attachment:fixed;
+  overflow-x:hidden;
+}
+/* fine grain noise */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.04 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity:.6;mix-blend-mode:overlay;
+}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px;position:relative;z-index:2}
+
+/* ─── HEADER ─────────────────────────────── */
+header.brief{padding:48px 0 18px;border-bottom:1px solid var(–border)}
+.classmark{display:flex;justify-content:space-between;align-items:center;font-family:“JetBrains Mono”,monospace;font-size:11px;letter-spacing:.2em;color:var(–ink-3);text-transform:uppercase}
+.classmark .dot{width:8px;height:8px;border-radius:50%;background:var(–kinetic);display:inline-block;margin-right:8px;box-shadow:0 0 12px var(–kinetic);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+h1.title{
+font-family:“Fraunces”,serif;font-weight:300;font-style:italic;font-size:clamp(48px,8.5vw,118px);
+line-height:.95;letter-spacing:-.02em;margin:34px 0 18px;color:var(–ink);
+}
+h1.title em{font-style:normal;font-weight:600;color:var(–paper)}
+h1.title b{font-style:normal;font-weight:700;background:linear-gradient(180deg,#e9483b,#7a1f1f);-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{
+max-width:760px;font-size:clamp(15px,1.6vw,18px);color:var(–ink-2);
+line-height:1.6;margin-top:14px;font-weight:300;
+}
+.byline{
+display:flex;flex-wrap:wrap;gap:18px 28px;margin-top:36px;
+font-family:“JetBrains Mono”,monospace;font-size:11px;color:var(–ink-3);
+letter-spacing:.12em;text-transform:uppercase;
+padding-top:22px;border-top:1px dashed var(–border-2);
+}
+.byline span b{color:var(–paper);font-weight:600;letter-spacing:.05em}
+
+/* ─── STAT BAND ──────────────────────────── */
+.statband{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:42px 0 8px;border:1px solid var(–border);border-radius:2px;background:linear-gradient(180deg,var(–surface),transparent)}
+.statband .stat{padding:24px 22px;border-right:1px solid var(–border)}
+.statband .stat:last-child{border-right:none}
+.stat .num{font-family:“Fraunces”,serif;font-size:clamp(36px,5vw,64px);font-weight:600;line-height:1;color:var(–paper);letter-spacing:-.02em}
+.stat .num .sm{font-size:.5em;color:var(–ink-3);margin-left:4px;font-weight:400}
+.stat .lab{font-family:“JetBrains Mono”,monospace;font-size:10px;letter-spacing:.18em;color:var(–ink-3);text-transform:uppercase;margin-top:10px}
+.stat.acc-r .num{color:#e25b5b}
+.stat.acc-b .num{color:#7baadc}
+.stat.acc-g .num{color:#d4b16f}
+.stat.acc-v .num{color:#b89dd8}
+@media(max-width:780px){.statband{grid-template-columns:repeat(2,1fr)}.statband .stat:nth-child(2){border-right:none}.statband .stat:nth-child(1),.statband .stat:nth-child(2){border-bottom:1px solid var(–border)}}
+
+/* ─── SECTION CHROME ─────────────────────── */
+section{padding:80px 0;border-bottom:1px solid var(–border)}
+.kicker{display:flex;align-items:center;gap:14px;font-family:“JetBrains Mono”,monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(–ink-3);margin-bottom:18px}
+.kicker .num{color:var(–ink);background:var(–surface-2);border:1px solid var(–border);padding:4px 10px}
+.kicker .bar{flex:1;height:1px;background:var(–border)}
+h2.shead{font-family:“Fraunces”,serif;font-weight:300;font-size:clamp(34px,5vw,58px);line-height:1.02;letter-spacing:-.015em;color:var(–ink);margin-bottom:14px}
+h2.shead em{font-style:italic;color:var(–paper)}
+h2.shead .acc{font-style:italic;font-weight:500;background:linear-gradient(180deg,currentColor,transparent);-webkit-background-clip:text;background-clip:text}
+.lede{max-width:780px;color:var(–ink-2);font-size:16px;line-height:1.65;margin-bottom:42px;font-weight:300}
+
+/* ─── COALITION SPLIT ────────────────────── */
+.split{display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:stretch;margin-top:18px}
+.split .sep{
+position:relative;width:1px;background:linear-gradient(180deg,transparent,var(–border-2) 12%,var(–border-2) 88%,transparent);
+margin:0 28px;
+}
+.split .sep::after{
+content:“VS”;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+font-family:“Fraunces”,serif;font-style:italic;font-weight:300;font-size:32px;color:var(–ink-3);
+background:var(–bg);padding:6px 10px;letter-spacing:-.02em;
+}
+.bloc{padding:6px 0}
+.bloc .bloc-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.bloc .glyph{
+width:14px;height:14px;flex-shrink:0;
+}
+.bloc.west .glyph{background:var(–west);box-shadow:0 0 18px rgba(91,143,209,.5)}
+.bloc.east .glyph{background:var(–east);box-shadow:0 0 18px rgba(196,58,58,.55);clip-path:polygon(50% 0,100% 38%,82% 100%,18% 100%,0 38%)}
+.bloc h3{font-family:“Fraunces”,serif;font-weight:400;font-size:30px;letter-spacing:-.01em;color:var(–paper)}
+.bloc.east h3 em{color:#e87575;font-style:normal}
+.bloc.west h3 em{color:#9bbcea;font-style:normal}
+.bloc .tag{font-family:“JetBrains Mono”,monospace;font-size:10px;letter-spacing:.2em;color:var(–ink-3);text-transform:uppercase;margin-bottom:18px}
+.bloc p{color:var(–ink-2);font-size:14.5px;line-height:1.65;margin-bottom:18px}
+.members{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px}
+.chip{
+font-family:“JetBrains Mono”,monospace;font-size:10.5px;letter-spacing:.05em;
+padding:5px 9px;border:1px solid var(–border-2);background:var(–surface);color:var(–ink-2);
+}
+.bloc.west .chip.core{border-color:rgba(91,143,209,.5);color:#bdd3ee;background:rgba(91,143,209,.07)}
+.bloc.east .chip.core{border-color:rgba(196,58,58,.5);color:#eab1b1;background:rgba(196,58,58,.07)}
+.kvgrid{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin-top:14px;font-size:13.5px;border-top:1px solid var(–border);padding-top:14px}
+.kvgrid .k{font-family:“JetBrains Mono”,monospace;font-size:10.5px;letter-spacing:.14em;color:var(–ink-3);text-transform:uppercase;padding-top:3px}
+.kvgrid .v{color:var(–ink-2)}
+@media(max-width:880px){
+.split{grid-template-columns:1fr;gap:18px}
+.split .sep{width:auto;height:1px;background:linear-gradient(90deg,transparent,var(–border-2),transparent);margin:18px 0}
+.split .sep::after{position:relative;top:auto;left:auto;transform:none;display:inline-block}
+}
+
+/* ─── CONFLICT CARDS ─────────────────────── */
+.conflicts{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:6px}
+@media(max-width:880px){.conflicts{grid-template-columns:1fr}}
+.cf{
+background:linear-gradient(180deg,var(–surface),var(–bg-2));
+border:1px solid var(–border);position:relative;overflow:hidden;
+display:flex;flex-direction:column;
+}
+.cf .ribbon{
+position:absolute;top:0;left:0;right:0;height:3px;
+background:linear-gradient(90deg,var(–west) 0,var(–west) 50%,var(–east) 50%,var(–east) 100%);
+}
+.cf.solo .ribbon{background:var(–kinetic)}
+.cf .head{padding:22px 24px 14px;border-bottom:1px solid var(–border)}
+.cf .meta{display:flex;justify-content:space-between;align-items:center;font-family:“JetBrains Mono”,monospace;font-size:10px;letter-spacing:.18em;color:var(–ink-3);text-transform:uppercase;margin-bottom:10px}
+.cf .meta .sev{padding:3px 8px;background:rgba(201,48,48,.12);color:#e08585;border:1px solid rgba(201,48,48,.3)}
+.cf .meta .sev.med{background:rgba(217,147,52,.1);color:#e3b06d;border-color:rgba(217,147,52,.3)}
+.cf .meta .sev.lo{background:rgba(126,122,114,.12);color:var(–ink-2);border-color:var(–border-2)}
+.cf h4{font-family:“Fraunces”,serif;font-weight:500;font-size:24px;letter-spacing:-.01em;color:var(–paper);line-height:1.15;margin-bottom:8px}
+.cf .since{font-family:“JetBrains Mono”,monospace;font-size:11px;color:var(–ink-3);letter-spacing:.06em}
+.cf .body{padding:14px 24px 18px;color:var(–ink-2);font-size:14px;line-height:1.6;flex:1}
+.cf .sides{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(–border);margin-top:0}
+.cf .side{padding:14px 22px}
+.cf .side.left{border-right:1px solid var(–border)}
+.cf .side .lab{font-family:“JetBrains Mono”,monospace;font-size:9.5px;letter-spacing:.2em;color:var(–ink-3);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.cf .side .lab .pip{width:6px;height:6px;border-radius:50%}
+.cf .side.left .lab .pip{background:var(–west);box-shadow:0 0 8px var(–west)}
+.cf .side.right .lab .pip{background:var(–east);box-shadow:0 0 8px var(–east)}
+.cf.solo .side.left .lab .pip{background:var(–ink-3);box-shadow:none}
+.cf.solo .side.right .lab .pip{background:var(–kinetic);box-shadow:0 0 8px var(–kinetic)}
+.cf .side .who{font-size:13px;color:var(–paper);font-weight:500;margin-bottom:6px}
+.cf .side .backers{font-size:12px;color:var(–ink-3);line-height:1.55}
+.cf .side .backers b{color:var(–ink-2);font-weight:500}
+.cf .stats-row{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(–border);background:rgba(0,0,0,.25)}
+.cf .ms{padding:12px 18px;border-right:1px solid var(–border);text-align:left}
+.cf .ms:last-child{border-right:none}
+.cf .ms .n{font-family:“Fraunces”,serif;font-size:20px;font-weight:600;color:var(–paper);line-height:1}
+.cf .ms .l{font-family:“JetBrains Mono”,monospace;font-size:9px;letter-spacing:.16em;color:var(–ink-3);text-transform:uppercase;margin-top:6px}
+
+/* ─── SECONDARY CONFLICT LIST ────────────── */
+.minicon{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px}
+@media(max-width:880px){.minicon{grid-template-columns:1fr}}
+.mc{padding:18px 18px;background:var(–surface);border:1px solid var(–border);border-left:3px solid var(–kinetic-2)}
+.mc.b1{border-left-color:#7a1f1f}
+.mc.b2{border-left-color:#5a3617}
+.mc.b3{border-left-color:#34557a}
+.mc.b4{border-left-color:#5a3617}
+.mc.b5{border-left-color:#7a1f1f}
+.mc.b6{border-left-color:#34557a}
+.mc h5{font-family:“Fraunces”,serif;font-weight:500;font-size:17px;color:var(–paper);margin-bottom:6px;letter-spacing:-.005em}
+.mc .desc{font-size:13px;color:var(–ink-2);line-height:1.55;margin-bottom:8px}
+.mc .actors{font-family:“JetBrains Mono”,monospace;font-size:10px;letter-spacing:.05em;color:var(–ink-3);text-transform:uppercase}
+
+/* ─── ECON / TRADE / TECH / CAP / INF ────── */
+.warlist{display:grid;grid-template-columns:1fr;gap:0}
+.warblock{
+display:grid;grid-template-columns:280px 1fr;gap:36px;
+padding:42px 0;border-top:1px solid var(–border);
+}
+.warblock:first-child{border-top:none}
+.warblock .lhs{position:relative}
+.warblock .lhs .iconmark{
+width:64px;height:64px;border:1px solid var(–border-2);background:var(–surface);
+display:flex;align-items:center;justify-content:center;font-family:“Fraunces”,serif;font-style:italic;
+font-size:30px;color:var(–paper);margin-bottom:18px;
+}
+.warblock.t-trade .iconmark{color:var(–trade);border-color:rgba(217,147,52,.4)}
+.warblock.t-tech .iconmark{color:var(–tech);border-color:rgba(95,179,184,.4)}
+.warblock.t-cap .iconmark{color:var(–capital);border-color:rgba(201,162,94,.4)}
+.warblock.t-inf .iconmark{color:var(–influence);border-color:rgba(154,120,194,.4)}
+.warblock.t-econ .iconmark{color:#e0796a;border-color:rgba(224,121,106,.4)}
+.warblock .lhs .typetag{font-family:“JetBrains Mono”,monospace;font-size:10px;letter-spacing:.22em;color:var(–ink-3);text-transform:uppercase;margin-bottom:10px}
+.warblock .lhs h3{font-family:“Fraunces”,serif;font-weight:400;font-size:32px;line-height:1.05;letter-spacing:-.01em;color:var(–paper)}
+.warblock.t-trade .lhs h3 em{color:var(–trade);font-style:italic;font-weight:500}
+.warblock.t-tech .lhs h3 em{color:var(–tech);font-style:italic;font-weight:500}
+.warblock.t-cap .lhs h3 em{color:var(–capital);font-style:italic;font-weight:500}
+.warblock.t-inf .lhs h3 em{color:var(–influence);font-style:italic;font-weight:500}
+.warblock.t-econ .lhs h3 em{color:#e0796a;font-style:italic;font-weight:500}
+.warblock .lhs .lhs-note{margin-top:14px;font-family:“JetBrains Mono”,monospace;font-size:11px;color:var(–ink-3);line-height:1.5}
+.warblock .rhs{padding-top:6px}
+.warblock .rhs > p{color:var(–ink-2);font-size:14.5px;line-height:1.65;margin-bottom:20px}
+.fronts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:8px}
+@media(max-width:1020px){.warblock{grid-template-columns:1fr;gap:14px}.fronts{grid-template-columns:1fr}}
+.front{
+padding:14px 16px;background:var(–surface);border:1px solid var(–border);
+border-left:2px solid var(–border-2);
+}
+.warblock.t-trade .front{border-left-color:rgba(217,147,52,.7)}
+.warblock.t-tech .front{border-left-color:rgba(95,179,184,.7)}
+.warblock.t-cap .front{border-left-color:rgba(201,162,94,.7)}
+.warblock.t-inf .front{border-left-color:rgba(154,120,194,.7)}
+.warblock.t-econ .front{border-left-color:rgba(224,121,106,.7)}
+.front .ft{font-family:“Fraunces”,serif;font-size:16px;font-weight:500;color:var(–paper);margin-bottom:5px}
+.front .fd{font-size:12.5px;color:var(–ink-2);line-height:1.55}
+.front .fd b{color:var(–paper);font-weight:500}
+
+/* ─── INFLUENCE THEATERS ─────────────────── */
+.theaters{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+@media(max-width:1020px){.theaters{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.theaters{grid-template-columns:1fr}}
+.th{padding:18px 18px;background:linear-gradient(180deg,var(–surface),var(–bg-2));border:1px solid var(–border);position:relative}
+.th .reg{font-family:“JetBrains Mono”,monospace;font-size:10px;letter-spacing:.2em;color:var(–influence);text-transform:uppercase;margin-bottom:10px}
+.th h6{font-family:“Fraunces”,serif;font-weight:500;font-size:18px;color:var(–paper);line-height:1.15;margin-bottom:8px;letter-spacing:-.005em}
+.th .d{font-size:12.5px;color:var(–ink-2);line-height:1.55;margin-bottom:10px}
+.th .vs{display:flex;gap:6px;flex-wrap:wrap}
+.th .vs span{font-family:“JetBrains Mono”,monospace;font-size:9.5px;letter-spacing:.06em;padding:3px 7px;border:1px solid var(–border-2);color:var(–ink-2)}
+.th .vs span.w{border-color:rgba(91,143,209,.4);color:#9bbcea}
+.th .vs span.e{border-color:rgba(196,58,58,.4);color:#e87575}
+
+/* ─── FOOTER ─────────────────────────────── */
+footer{padding:60px 0 80px;color:var(–ink-3);font-size:12.5px;line-height:1.65;border-top:1px solid var(–border)}
+footer .ftgrid{display:grid;grid-template-columns:2fr 1fr;gap:36px}
+@media(max-width:780px){footer .ftgrid{grid-template-columns:1fr}}
+footer h6{font-family:“JetBrains Mono”,monospace;font-size:10px;letter-spacing:.2em;color:var(–ink-2);text-transform:uppercase;margin-bottom:12px}
+footer p{margin-bottom:10px;color:var(–ink-3);font-size:12.5px}
+footer .bigmark{font-family:“Fraunces”,serif;font-style:italic;font-size:34px;color:var(–ink-2);font-weight:300;line-height:1.2}
+footer .sources{font-family:“JetBrains Mono”,monospace;font-size:10.5px;color:var(–ink-3);letter-spacing:.04em;line-height:1.7}
+
+/* asymmetric pull-quote between sections */
+.pull{
+padding:60px 0;border-bottom:1px solid var(–border);
+}
+.pull blockquote{
+max-width:920px;margin:0 auto;text-align:left;padding:0 24px;position:relative;
+}
+.pull blockquote::before{
+content:””;position:absolute;left:0;top:6px;width:36px;height:1px;background:var(–kinetic);
+}
+.pull blockquote q{
+font-family:“Fraunces”,serif;font-weight:300;font-style:italic;font-size:clamp(22px,3.2vw,38px);
+line-height:1.3;color:var(–paper);letter-spacing:-.01em;quotes:none;display:block;margin-left:60px;
+}
+.pull blockquote cite{
+display:block;margin:18px 0 0 60px;font-style:normal;font-family:“JetBrains Mono”,monospace;
+font-size:11px;color:var(–ink-3);letter-spacing:.16em;text-transform:uppercase;
+}
+
+/* small tweaks */
+::selection{background:rgba(201,48,48,.4);color:var(–paper)}
+</style>
+
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ─────────── HEADER / TITLE ─────────── -->
+
+  <header class="brief">
+    <div class="classmark">
+      <div><span class="dot"></span>Active Conflict Dossier · Vol. IV · 2026</div>
+      <div>Compiled 25 · APR · 2026</div>
+    </div>
+
+```
+<h1 class="title">
+  The world<br/>
+  is at <em>war</em><br/>
+  with <b>itself.</b>
+</h1>
+
+<p class="subtitle">
+  A field guide to the <em>kinetic</em>, the <em>economic</em>, and the <em>silent</em> wars now reshaping the planet — the armies, the back-channels, the chip lines, and the two coalitions tugging the world apart from each end.
+</p>
+
+<div class="byline">
+  <span><b>FRONTS · 46+</b> active armed conflicts</span>
+  <span><b>WESTERN BLOC</b> NATO · G7 · QUAD · AUKUS</span>
+  <span><b>CRINK AXIS</b> China · Russia · Iran · DPRK</span>
+  <span><b>STATUS</b> Most simultaneous wars since 1945</span>
+</div>
+
+<div class="statband">
+  <div class="stat acc-r"><div class="num">46<span class="sm">+</span></div><div class="lab">Active Armed Conflicts</div></div>
+  <div class="stat acc-b"><div class="num">120M<span class="sm"></span></div><div class="lab">Forcibly Displaced Globally</div></div>
+  <div class="stat acc-g"><div class="num">$2.7T</div><div class="lab">Global Defense Spending '25</div></div>
+  <div class="stat acc-v"><div class="num">16K<span class="sm">+</span></div><div class="lab">Sanctions Imposed on Russia</div></div>
+</div>
+```
+
+  </header>
+
+  <!-- ─────────── SECTION 01: COALITIONS ─────────── -->
+
+  <section id="coalitions">
+    <div class="kicker"><span class="num">01</span> The Two Camps <span class="bar"></span> Strategic Convergence</div>
+    <h2 class="shead">The map has folded. <em>Two coalitions</em> now finance, arm,<br/>and underwrite nearly every war on earth.</h2>
+    <p class="lede">
+      No bloc is formally signed. Both sides bicker internally and trade with each other across embargoes. But behind almost every active front lies a tangle of supply lines, missile transfers, and diplomatic vetoes that resolves into the same two patterns of patronage.
+    </p>
+
+```
+<div class="split">
+  <!-- WESTERN BLOC -->
+  <div class="bloc west">
+    <div class="bloc-head">
+      <div class="glyph"></div>
+      <h3>The <em>Western</em> Bloc</h3>
+    </div>
+    <div class="tag">G7 · NATO · QUAD · AUKUS · Coalition of the Willing</div>
+    <p>
+      Anchored by the United States and the European democracies, the Western coalition controls the dollar reserve system, the SWIFT rail, the IMF and World Bank, and roughly half of global GDP from a tenth of its population. Through the France– and UK–led <i>Coalition of the Willing</i>, it underwrites Ukraine; through US strikes and Israeli operations it confronts Iran; and through critical-mineral deals it is now contesting eastern Congo and the Sahel.
+    </p>
+    <div class="members">
+      <span class="chip core">USA</span>
+      <span class="chip core">UK</span>
+      <span class="chip core">France</span>
+      <span class="chip core">Germany</span>
+      <span class="chip core">Italy</span>
+      <span class="chip core">Canada</span>
+      <span class="chip core">Japan</span>
+      <span class="chip core">South Korea</span>
+      <span class="chip core">Australia</span>
+      <span class="chip">Poland</span>
+      <span class="chip">Netherlands</span>
+      <span class="chip">Nordics</span>
+      <span class="chip">Baltics</span>
+      <span class="chip">Israel</span>
+      <span class="chip">Ukraine</span>
+      <span class="chip">Taiwan</span>
+      <span class="chip">Philippines</span>
+    </div>
+    <div class="kvgrid">
+      <div class="k">Pop.</div><div class="v">~1.0 B (≈12% of world)</div>
+      <div class="k">GDP</div><div class="v">~45% of global output</div>
+      <div class="k">Reserve</div><div class="v">USD · EUR · GBP · JPY</div>
+      <div class="k">Rails</div><div class="v">SWIFT · CHIPS · Visa/Mastercard</div>
+      <div class="k">Doctrine</div><div class="v">Rules-based liberal order; defensive deterrence</div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- CRINK / EAST -->
+  <div class="bloc east">
+    <div class="bloc-head">
+      <div class="glyph"></div>
+      <h3>The <em>CRINK</em> Axis</h3>
+    </div>
+    <div class="tag">"Axis of Upheaval" · Adversary Entente · BRICS+ Penumbra</div>
+    <p>
+      Not a treaty alliance — a <i>strategic convergence</i> of four revisionist states united against US-led order. Russia and China anchor it; Iran and North Korea operate as the kinetic edge. Pyongyang has shipped millions of artillery shells and troops to Ukraine; Tehran sent the drones; Beijing supplies the dual-use components and the discounted oil that keeps Russia liquid. Around them sits a wider <i>BRICS+</i> of neutrals quietly building parallel financial rails.
+    </p>
+    <div class="members">
+      <span class="chip core">China</span>
+      <span class="chip core">Russia</span>
+      <span class="chip core">Iran</span>
+      <span class="chip core">North Korea</span>
+      <span class="chip">Belarus</span>
+      <span class="chip">Myanmar (junta)</span>
+      <span class="chip">Mali</span>
+      <span class="chip">Burkina Faso</span>
+      <span class="chip">Niger</span>
+      <span class="chip">Cuba</span>
+      <span class="chip">Venezuela</span>
+      <span class="chip">Syria*</span>
+      <span class="chip">— BRICS+ —</span>
+      <span class="chip">Brazil</span>
+      <span class="chip">India</span>
+      <span class="chip">South Africa</span>
+      <span class="chip">UAE</span>
+      <span class="chip">Egypt</span>
+      <span class="chip">Ethiopia</span>
+    </div>
+    <div class="kvgrid">
+      <div class="k">Pop.</div><div class="v">~1.6 B (CRINK) · 3.6 B with BRICS+</div>
+      <div class="k">GDP</div><div class="v">~25% (CRINK) · 35–40% with BRICS+</div>
+      <div class="k">Reserve</div><div class="v">CNY · gold · BRICS Unit (pilot)</div>
+      <div class="k">Rails</div><div class="v">CIPS · SPFS · UPI · BRICS Pay</div>
+      <div class="k">Doctrine</div><div class="v">Multipolar revisionism; economic sovereignty</div>
+    </div>
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- ─────────── PULL QUOTE ─────────── -->
+
+  <div class="pull">
+    <blockquote>
+      <q>It is increasing the military capabilities of America's adversaries while at the same time diluting the foreign-policy tools we have to confront them.</q>
+      <cite>— Richard Fontaine on the CRINK alignment, CSIS, 2026</cite>
+    </blockquote>
+  </div>
+
+  <!-- ─────────── SECTION 02: KINETIC WARS ─────────── -->
+
+  <section id="kinetic">
+    <div class="kicker"><span class="num">02</span> Kinetic Theaters <span class="bar"></span> Where the Bullets Are Flying</div>
+    <h2 class="shead">The <em>shooting wars</em>.</h2>
+    <p class="lede">
+      Five theaters dominate the global conflict map in 2026 — Ukraine, the Middle East, Sudan, the eastern Congo, and Myanmar. Behind each, the same patrons appear, often on opposite sides of the same line.
+    </p>
+
+```
+<div class="conflicts">
+
+  <!-- UKRAINE -->
+  <article class="cf">
+    <div class="ribbon"></div>
+    <div class="head">
+      <div class="meta"><span>EUROPE · Theater I</span><span class="sev">SEVERITY · MAX</span></div>
+      <h4>Russia–Ukraine</h4>
+      <div class="since">DAY 1,160+ · since 24 FEB 2022</div>
+    </div>
+    <div class="body">
+      The largest land war in Europe since 1945. Russia logged <b>zero net territorial gains in March 2026</b> for the first time in 30 months while launching a record <b>6,462 one-way attack drones</b> in the same month. New START expired 5 February 2026, ending all strategic-nuclear caps for the first time since 1972. Coalition of the Willing security-guarantee talks ongoing in Paris.
+    </div>
+    <div class="sides">
+      <div class="side left">
+        <div class="lab"><span class="pip"></span>Backing Ukraine</div>
+        <div class="who">NATO · Coalition of the Willing</div>
+        <div class="backers"><b>USA</b> (PURL, backstop) · <b>UK · France</b> (lead) · <b>Germany · Poland · Nordics · Baltics · Canada · Japan · EU</b></div>
+      </div>
+      <div class="side right">
+        <div class="lab"><span class="pip"></span>Backing Russia</div>
+        <div class="who">CRINK Axis</div>
+        <div class="backers"><b>North Korea</b> (troops, shells, missiles) · <b>Iran</b> (Shahed drones, ballistic) · <b>China</b> (dual-use, oil) · <b>Belarus</b> (territory)</div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="ms"><div class="n">1.3M</div><div class="l">RU casualties (UA est.)</div></div>
+      <div class="ms"><div class="n">6,462</div><div class="l">Drones in March '26</div></div>
+      <div class="ms"><div class="n">~20%</div><div class="l">UA territory occupied</div></div>
+    </div>
+  </article>
+
+  <!-- MIDDLE EAST -->
+  <article class="cf">
+    <div class="ribbon"></div>
+    <div class="head">
+      <div class="meta"><span>MIDDLE EAST · Theater II</span><span class="sev">SEVERITY · MAX</span></div>
+      <h4>Israel–Iran &amp; the Axis of Resistance</h4>
+      <div class="since">REGIONAL WAR · Oct 2023 → ongoing · IRAN STRIKES 28 FEB 2026</div>
+    </div>
+    <div class="body">
+      Gaza fighting reached a <b>tenuous halt in October 2025</b> after near-total destruction of the strip. The war then mutated upward: a US–Israeli joint strike on Iranian nuclear and missile infrastructure on <b>28 February 2026</b> — the second in a year — drew Iranian retaliatory missiles into <b>Bahrain, Qatar, Kuwait, Jordan, UAE, and Saudi Arabia</b>. Hezbollah disarmament has stalled, Houthi Red Sea strikes resumed, ISIS resurges in Syria.
+    </div>
+    <div class="sides">
+      <div class="side left">
+        <div class="lab"><span class="pip"></span>Western-aligned</div>
+        <div class="who">USA · Israel</div>
+        <div class="backers">UK · Germany (intel) · Gulf hosts of US bases (UAE, Qatar, Bahrain, Kuwait, Saudi)</div>
+      </div>
+      <div class="side right">
+        <div class="lab"><span class="pip"></span>Iran-aligned</div>
+        <div class="who">Axis of Resistance</div>
+        <div class="backers"><b>Iran</b> + Hezbollah · Houthis · Iraqi militias · Hamas remnants. <b>China · Russia · DPRK</b> diplomatic shield (UN vetoes, snapback opposition)</div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="ms"><div class="n">~70K</div><div class="l">Gaza dead (est.)</div></div>
+      <div class="ms"><div class="n">6</div><div class="l">Gulf states hit by Iran</div></div>
+      <div class="ms"><div class="n">2nd</div><div class="l">US-Israel strike on Iran</div></div>
+    </div>
+  </article>
+
+  <!-- SUDAN -->
+  <article class="cf">
+    <div class="ribbon"></div>
+    <div class="head">
+      <div class="meta"><span>HORN OF AFRICA · Theater III</span><span class="sev">SEVERITY · MAX</span></div>
+      <h4>Sudan Civil War · SAF vs RSF</h4>
+      <div class="since">YEAR 4 · since 15 APR 2023 · world's worst displacement crisis</div>
+    </div>
+    <div class="body">
+      The world's largest displacement disaster. <b>RSF captured El Fasher</b> in October 2025 after an 18-month siege; UN-documented <i>"hallmarks of genocide"</i> in Darfur. The Quad (US, Saudi, UAE, Egypt) road-map fractured in December when UAE–Saudi tensions ruptured publicly. The war has split the Gulf and pulled in Ethiopia, which now hosts UAE-financed RSF training camps near the border.
+    </div>
+    <div class="sides">
+      <div class="side left">
+        <div class="lab"><span class="pip"></span>Backing SAF (Burhan)</div>
+        <div class="who">Sudanese Armed Forces</div>
+        <div class="backers"><b>Egypt</b> (Nile, military) · <b>Saudi Arabia · Qatar · Turkey</b> (Bayraktar drones) · <b>Iran</b> (Mohajer-6) · Russia (UNSC)</div>
+      </div>
+      <div class="side right">
+        <div class="lab"><span class="pip"></span>Backing RSF (Hemedti)</div>
+        <div class="who">Rapid Support Forces</div>
+        <div class="backers"><b>UAE</b> (primary patron, drones, finance) · <b>Ethiopia</b> (training camps) · <b>Haftar/Libya · Chad</b> (transit) · ex-Wagner Russian operators</div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="ms"><div class="n">11M</div><div class="l">Displaced</div></div>
+      <div class="ms"><div class="n">25M</div><div class="l">Acute food insecurity</div></div>
+      <div class="ms"><div class="n">~150K</div><div class="l">Estimated dead</div></div>
+    </div>
+  </article>
+
+  <!-- DRC -->
+  <article class="cf">
+    <div class="ribbon"></div>
+    <div class="head">
+      <div class="meta"><span>CENTRAL AFRICA · Theater IV</span><span class="sev">SEVERITY · HIGH</span></div>
+      <h4>Eastern Congo — DRC vs M23/Rwanda</h4>
+      <div class="since">since 2022 · "Washington Accords" Dec 2025 · fighting continues</div>
+    </div>
+    <div class="body">
+      A <b>Rwanda-backed</b> rebellion fought over coltan, gold, lithium and cobalt. Burundi alleges <b>8,000 Rwandan troops</b> in South Kivu. M23 took Goma (2025) then Uvira (Dec 2025) before a US-brokered peace deal — fighting then resumed in the South Kivu highlands. US sanctioned senior Rwandan officers in March 2026 for accord violations as American mining firms (KoBold, Virtus) lock up critical minerals.
+    </div>
+    <div class="sides">
+      <div class="side left">
+        <div class="lab"><span class="pip"></span>Backing Kinshasa</div>
+        <div class="who">DRC government · Wazalendo</div>
+        <div class="backers"><b>USA</b> (mining interests, sanctions on Rwanda) · <b>Burundi</b> (troops) · <b>EU</b> (humanitarian) · MONUSCO drawdown</div>
+      </div>
+      <div class="side right">
+        <div class="lab"><span class="pip"></span>Backing M23</div>
+        <div class="who">Rwanda · M23 / AFC</div>
+        <div class="backers"><b>Rwanda</b> (troops, command, logistics) · Uganda (ADF tolerance) · informal smuggling routes via Kampala &amp; Kigali</div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="ms"><div class="n">7M+</div><div class="l">Internally displaced</div></div>
+      <div class="ms"><div class="n">100+</div><div class="l">Armed groups in east</div></div>
+      <div class="ms"><div class="n">~50%</div><div class="l">World cobalt supply</div></div>
+    </div>
+  </article>
+
+  <!-- MYANMAR -->
+  <article class="cf">
+    <div class="ribbon"></div>
+    <div class="head">
+      <div class="meta"><span>SOUTHEAST ASIA · Theater V</span><span class="sev med">SEVERITY · HIGH</span></div>
+      <h4>Myanmar Civil War</h4>
+      <div class="since">since FEB 2021 coup · sham vote Dec 2025–Jan 2026</div>
+    </div>
+    <div class="body">
+      The military junta has regained the upper hand after a period of rebel ascendance, propelled by <b>decisive Chinese backing</b>. Aung San Suu Kyi remains incommunicado; the NLD has been dissolved. PDF and ethnic armed organisations (KIA, AA, TNLA) hold large rural and border zones. Western influence is near zero.
+    </div>
+    <div class="sides">
+      <div class="side left">
+        <div class="lab"><span class="pip"></span>Resistance</div>
+        <div class="who">NUG · PDF · EAOs</div>
+        <div class="backers">Limited Western humanitarian/sanctions support; cross-border refuge in <b>Thailand · India</b>; NUG diplomatic recognition by no major state</div>
+      </div>
+      <div class="side right">
+        <div class="lab"><span class="pip"></span>Junta</div>
+        <div class="who">SAC / Tatmadaw</div>
+        <div class="backers"><b>China</b> (decisive economic + diplomatic) · <b>Russia</b> (arms, jet fighters) · <b>India</b> (pragmatic) · ASEAN passive</div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="ms"><div class="n">3.5M</div><div class="l">Internally displaced</div></div>
+      <div class="ms"><div class="n">14</div><div class="l">States with active fighting</div></div>
+      <div class="ms"><div class="n">5yr</div><div class="l">Schools shut in conflict zones</div></div>
+    </div>
+  </article>
+
+  <!-- YEMEN -->
+  <article class="cf">
+    <div class="ribbon"></div>
+    <div class="head">
+      <div class="meta"><span>ARABIAN PEN. · Theater VI</span><span class="sev med">SEVERITY · HIGH</span></div>
+      <h4>Yemen — Houthis &amp; the Red Sea</h4>
+      <div class="since">since 2014 · Red Sea campaign since late 2023</div>
+    </div>
+    <div class="body">
+      The Saudi air campaign wound down under a fragile truce, but <b>Houthi strikes on Red Sea shipping</b> in solidarity with Gaza re-escalated the war and triggered repeated US strikes. Insurance costs for Suez-route shipping have stayed elevated; supply chains across Asia–Europe still bear the cost. 21M Yemenis need humanitarian aid.
+    </div>
+    <div class="sides">
+      <div class="side left">
+        <div class="lab"><span class="pip"></span>Anti-Houthi</div>
+        <div class="who">Saudi-led coalition · USA · UK</div>
+        <div class="backers"><b>Saudi Arabia · UAE</b> (now via STC; rupture in Dec '25) · <b>USA · UK</b> (strikes) · weapons from US/UK/France/Germany historically</div>
+      </div>
+      <div class="side right">
+        <div class="lab"><span class="pip"></span>Houthi (Ansar Allah)</div>
+        <div class="who">de facto rulers of N. Yemen</div>
+        <div class="backers"><b>Iran</b> (missiles, drones, training) · informal CRINK diplomatic cover · solidarity with Hamas/Hezbollah</div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="ms"><div class="n">21M</div><div class="l">In humanitarian need</div></div>
+      <div class="ms"><div class="n">↑3×</div><div class="l">Suez insurance premia</div></div>
+      <div class="ms"><div class="n">377K</div><div class="l">Cumulative dead (UN)</div></div>
+    </div>
+  </article>
+
+</div>
+
+<!-- secondary list -->
+<div class="minicon">
+
+  <div class="mc b1">
+    <h5>Sahel Insurgency</h5>
+    <div class="desc">Mali, Burkina Faso, Niger juntas have expelled France and the US, invited <b>Russia's Africa Corps</b> (ex-Wagner). JNIM (al-Qaeda) and ISIS Sahel Province expanding. Mass civilian killings documented by HRW.</div>
+    <div class="actors">JUNTAS + RUSSIA &nbsp;·&nbsp; vs &nbsp;·&nbsp; JNIM · ISIS-SAHEL</div>
+  </div>
+
+  <div class="mc b3">
+    <h5>Syria — Post-Assad Fragmentation</h5>
+    <div class="desc">Al-Sharaa transitional government holds Damascus. <b>Israeli + Turkish strikes</b> continue; Kurdish-led SDF in tense standoff with Ankara; ISIS resurgent; sectarian violence in Alawite and Druze zones.</div>
+    <div class="actors">ISRAEL · TURKEY · USA &nbsp;·&nbsp; vs &nbsp;·&nbsp; ISIS · SDF spoilers</div>
+  </div>
+
+  <div class="mc b1">
+    <h5>Somalia · Al-Shabaab</h5>
+    <div class="desc">Al-Qaeda's strongest affiliate controls swathes of south-central Somalia and is expanding north. <b>US AFRICOM</b> conducted 8+ airstrikes in Q1 2026 alone; AU mission drawdown advances.</div>
+    <div class="actors">FGS · USA · AU &nbsp;·&nbsp; vs &nbsp;·&nbsp; AL-SHABAAB · ISIS-SOMALIA</div>
+  </div>
+
+  <div class="mc b3">
+    <h5>India–Pakistan · Kashmir</h5>
+    <div class="desc">Cross-border tension flared again over <b>Indus water disputes</b> and Kashmir crackdowns. Both nuclear-armed; CFR rates renewed armed conflict a top-tier 2026 risk.</div>
+    <div class="actors">INDIA (US-tilted) &nbsp;·&nbsp; vs &nbsp;·&nbsp; PAKISTAN (China-tilted)</div>
+  </div>
+
+  <div class="mc b2">
+    <h5>Mexico · Cartel War</h5>
+    <div class="desc">Cartels now operate with <b>military-grade firepower</b> and US-made ammunition (ICIJ, Feb '26). US strikes on cartel-linked vessels off Venezuela have escalated cross-border tensions.</div>
+    <div class="actors">MEXICAN STATE · USA &nbsp;·&nbsp; vs &nbsp;·&nbsp; CARTELS (CJNG, SINALOA)</div>
+  </div>
+
+  <div class="mc b6">
+    <h5>Venezuela · US Pressure</h5>
+    <div class="desc">CFR's #1 new high-impact contingency for 2026: possibility of <b>direct US military action against Maduro</b>. Russia, China, Iran, Cuba propping up regime; colectivos and ELN in country.</div>
+    <div class="actors">USA · OPPOSITION &nbsp;·&nbsp; vs &nbsp;·&nbsp; MADURO + CRINK</div>
+  </div>
+
+  <div class="mc b2">
+    <h5>Cameroon · Ambazonia</h5>
+    <div class="desc">Anglophone separatist war drags on with extrajudicial killings, village burnings. Roots in colonial Anglo-French partition. Western coverage near zero.</div>
+    <div class="actors">CAMEROON STATE &nbsp;·&nbsp; vs &nbsp;·&nbsp; AMBA SEPARATISTS</div>
+  </div>
+
+  <div class="mc b5">
+    <h5>Haiti · State Collapse</h5>
+    <div class="desc">Gangs control <b>~85% of Port-au-Prince</b>. 700,000+ displaced. International response remains anemic; Kenyan-led MSS mission limited.</div>
+    <div class="actors">HAITIAN POLICE · MSS &nbsp;·&nbsp; vs &nbsp;·&nbsp; G9 / GANG ALLIANCES</div>
+  </div>
+
+  <div class="mc b4">
+    <h5>Cambodia–Thailand Border</h5>
+    <div class="desc">Heavy clashes Dec 2025 — artillery, airstrikes, rocket fire. Fragile ceasefire holds in some sectors; land crossings closed; Cambodia formally requesting historical evidence for territorial claims.</div>
+    <div class="actors">CAMBODIA &nbsp;·&nbsp; vs &nbsp;·&nbsp; THAILAND</div>
+  </div>
+
+  <div class="mc b1">
+    <h5>Ethiopia–TPLF Renewed Clashes</h5>
+    <div class="desc">2026 fighting in Tigray reignited. RSF cross-spillover from Sudan; Eritrean mobilisation; Pretoria Agreement strained.</div>
+    <div class="actors">ETHIOPIAN FED. · ERITREA &nbsp;·&nbsp; vs &nbsp;·&nbsp; TPLF FACTIONS</div>
+  </div>
+
+  <div class="mc b6">
+    <h5>Afghanistan · ISIS-K</h5>
+    <div class="desc">Taliban controls cities; <b>ISIS-Khorasan</b> conducts deadly attacks on minorities; cross-border strikes with Pakistan continue.</div>
+    <div class="actors">TALIBAN &nbsp;·&nbsp; vs &nbsp;·&nbsp; ISIS-K · TTP (in Pakistan)</div>
+  </div>
+
+  <div class="mc b3">
+    <h5>South China Sea</h5>
+    <div class="desc">Taiwan Strait + SCS shadow war: gray-zone PLA pressure on the Philippines, Taiwan blockade rehearsals. CFR rates a Strait crisis "even-chance" for 2026.</div>
+    <div class="actors">USA · PHL · JPN · AUS · TWN &nbsp;·&nbsp; vs &nbsp;·&nbsp; CHINA</div>
+  </div>
+
+</div>
+```
+
+  </section>
+
+  <!-- ─────────── PULL QUOTE ─────────── -->
+
+  <div class="pull">
+    <blockquote>
+      <q>The number of concurrent armed conflicts is at its highest level since the Second World War.</q>
+      <cite>— ACLED · Conflict Watchlist 2026</cite>
+    </blockquote>
+  </div>
+
+  <!-- ─────────── SECTION 03: SILENT WARS ─────────── -->
+
+  <section id="silent">
+    <div class="kicker"><span class="num">03</span> The Silent Wars <span class="bar"></span> No Bodies, but Bigger Stakes</div>
+    <h2 class="shead">The wars fought<br/>with <em>tariffs, code, capital,</em> and <em>quiet money</em>.</h2>
+    <p class="lede">
+      For every kinetic theater, there are five economic ones. The same coalitions that arm Ukraine and Iran are also fighting through customs codes, chip export licences, payment rails, and influence campaigns from Caracas to Kinshasa.
+    </p>
+
+```
+<div class="warlist">
+
+  <!-- TRADE WAR -->
+  <div class="warblock t-trade">
+    <div class="lhs">
+      <div class="iconmark">§</div>
+      <div class="typetag">Front 01 · Tariffs &amp; Trade</div>
+      <h3>The <em>tariff</em> war.</h3>
+      <p class="lhs-note">Largest US tax increase as % of GDP since 1993. Avg cost: <b>$1,500/household</b> in 2026.</p>
+    </div>
+    <div class="rhs">
+      <p>The Trump administration has remade global commerce. A 10% across-the-board surcharge under Section 122 took effect <b>25 February 2026</b>; Section 232 chips, Section 301 China escalations and a 100% EV tariff stack on top. Beijing responded with rare-earth export controls — gallium, germanium, antimony — that hit Western chipmakers hardest.</p>
+      <div class="fronts">
+        <div class="front"><div class="ft">Section 301 — China</div><div class="fd">25% on $250B industrial goods · 15% on $112B consumer goods · <b>100%</b> on Chinese EVs</div></div>
+        <div class="front"><div class="ft">Section 232 — Semiconductors</div><div class="fd">Took effect Jan 2026. <b>25%</b> on AI chips bound for re-export. Section 232 steel/aluminum still in force at 25%.</div></div>
+        <div class="front"><div class="ft">Section 122 — Across-the-Board</div><div class="fd"><b>10%</b> import surcharge effective 25 Feb 2026, applied to ~$1.2T of imports. Trump signaling 15%.</div></div>
+        <div class="front"><div class="ft">China Counter-Volley</div><div class="fd">Export controls on <b>gallium, germanium, antimony</b>. 7nm chip via SMIC/Huawei. Memory hoarding. Critical-mineral squeeze.</div></div>
+        <div class="front"><div class="ft">New Section 301 Probes</div><div class="fd">11 March 2026: 16 economies under "structural excess capacity" investigation, including EU, Japan, Korea, India.</div></div>
+        <div class="front"><div class="ft">Russia · Iran</div><div class="fd">Column-2 duty rates expanded on Russian metals, energy, chemicals. JCPOA snapback restored full Iran sanctions Sept 2025.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TECH WAR -->
+  <div class="warblock t-tech">
+    <div class="lhs">
+      <div class="iconmark">⌬</div>
+      <div class="typetag">Front 02 · Technology</div>
+      <h3>The <em>chip</em> war.</h3>
+      <p class="lhs-note">"Bifurcated development paths" — semis market projected to shrink up to 34% by 2026 if tariffs hold above 100%.</p>
+    </div>
+    <div class="rhs">
+      <p>The deepest structural cleavage. Both sides now pursue parallel tech stacks. Washington uses BIS export controls and CHIPS Act subsidies; Beijing answers with state funds, equipment indigenisation, and rare-earth leverage. AI chips are the focal point — and the Trump administration is now <b>charging US firms a 25% revenue share</b> for the privilege of selling them to China.</p>
+      <div class="fronts">
+        <div class="front"><div class="ft">AI Accelerators</div><div class="fd">Nvidia <b>H200</b> + AMD <b>MI325X</b> exports to China permitted with 25% revenue cut to US Treasury. House <b>AI OVERWATCH</b> bill in markup.</div></div>
+        <div class="front"><div class="ft">Equipment &amp; Foundries</div><div class="fd">ASML, AMAT, TEL controls. <b>TSMC</b> US fab build-out; Samsung NAND moved from China to US to harvest CHIPS Act money.</div></div>
+        <div class="front"><div class="ft">Chinese Indigenisation</div><div class="fd">Huawei's <b>stealth fabs</b>, SMIC 7nm, "10nm chip tool" announced Q1 2026. Memory hoarding by Chinese leaders amid trade war.</div></div>
+        <div class="front"><div class="ft">Critical Minerals</div><div class="fd">China holds dominant share of refined gallium, germanium, antimony, processed rare earths. South Korean chip supply chains hit by export curbs.</div></div>
+        <div class="front"><div class="ft">Data &amp; Cloud</div><div class="fd">Quiet front: cross-border data localization rules accelerating. >50% of industrial manufacturers expanding edge compute within 18 months.</div></div>
+        <div class="front"><div class="ft">Sub-fronts</div><div class="fd">Quantum, biotech, EVs, batteries, drones, AI models, undersea cable disputes — all now dual-use, all sanctioned at the margins.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAPITAL WAR -->
+  <div class="warblock t-cap">
+    <div class="lhs">
+      <div class="iconmark">¤</div>
+      <div class="typetag">Front 03 · Capital &amp; Currency</div>
+      <h3>The <em>dedollar</em> war.</h3>
+      <p class="lhs-note">Central banks added <b>1,045 tonnes</b> of gold in 2024 — third straight 1,000+ tonne year.</p>
+    </div>
+    <div class="rhs">
+      <p>The slowest-moving but most strategically consequential battlefield. SWIFT exclusion of Russian banks turned theoretical alternatives into operational ones. China's <b>CIPS</b> now has 1,500+ participants. The <b>BRICS Unit</b> launched a 100-unit pilot on 31 October 2025 — 40% gold, 60% BRICS currencies. 90% of Russia–China trade now settles in local currency.</p>
+      <div class="fronts">
+        <div class="front"><div class="ft">Sanctions Architecture</div><div class="fd">16,000+ measures on Russia. Iran JCPOA <b>snapback</b> restored full UN sanctions Sept 2025. Secondary sanctions chase Chinese banks.</div></div>
+        <div class="front"><div class="ft">Alt-Rails</div><div class="fd"><b>CIPS</b> (China) · <b>SPFS</b> (Russia) · <b>UPI</b> (India) · BRICS Pay messaging layer interlinks them — used to bypass SWIFT.</div></div>
+        <div class="front"><div class="ft">BRICS Unit</div><div class="fd">Settlement instrument backed 40% gold / 60% BRICS currencies. Pilot launched Oct 2025. Designed for trade, not retail.</div></div>
+        <div class="front"><div class="ft">CBDC Interoperability</div><div class="fd">Digital ruble · digital yuan (e-CNY in Guangdong) · digital rupee — interlink protocols under live development among BRICS-3.</div></div>
+        <div class="front"><div class="ft">New Development Bank</div><div class="fd">$30B disbursed in 2024; <b>~⅓ in local currencies</b>. India assumed BRICS chair Jan 2026; New Delhi summit due Aug/Sept.</div></div>
+        <div class="front"><div class="ft">Gold</div><div class="fd">Central-bank gold buying broke records three years running. Russia, China, India, Türkiye, Poland leading. Bretton Woods III talk back.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ECONOMIC WAR -->
+  <div class="warblock t-econ">
+    <div class="lhs">
+      <div class="iconmark">‡</div>
+      <div class="typetag">Front 04 · Economic Coercion</div>
+      <h3>The <em>commodity</em> war.</h3>
+      <p class="lhs-note">"Weaponizing dependencies" cuts both ways — and almost always asymmetrically.</p>
+    </div>
+    <div class="rhs">
+      <p>The line between trade policy and warfare has dissolved. Critical inputs — energy, food, minerals, fertilizer — are now tools of coercion. Russia weaponises grain corridors and gas; China weaponises rare earths; the West weaponises the dollar and reinsurance.</p>
+      <div class="fronts">
+        <div class="front"><div class="ft">Energy</div><div class="fd">EU off Russian pipeline gas (largely). Russia oil to <b>India + China</b> at discount. China imports Russian oil <b>up 80%</b> vs 2021; Iranian oil to China <b>up 400%</b>.</div></div>
+        <div class="front"><div class="ft">Food &amp; Fertilizer</div><div class="fd">Black Sea grain weaponised; Russia withdrew from grain deal. Sahel famines; Sudan and Gaza famines declared.</div></div>
+        <div class="front"><div class="ft">Critical Minerals</div><div class="fd">Cobalt, copper, lithium battles in <b>DRC, Zambia, Indonesia</b>. KoBold and Virtus (US) vs Chinese state miners. Indonesia's nickel ban set the model.</div></div>
+        <div class="front"><div class="ft">Shipping &amp; Insurance</div><div class="fd">Houthi attacks rerouted Asia–Europe shipping around the Cape; insurance premia tripled. Sanctions-driven "shadow fleet" of tankers now &gt; 1,000 vessels.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INFLUENCE WAR -->
+  <div class="warblock t-inf">
+    <div class="lhs">
+      <div class="iconmark">∞</div>
+      <div class="typetag">Front 05 · Geopolitical Influence</div>
+      <h3>The <em>influence</em> war.</h3>
+      <p class="lhs-note">Where the two coalitions buy ports, mines, votes, narratives — and occasionally each other.</p>
+    </div>
+    <div class="rhs">
+      <p>Beneath every kinetic and economic front sits a slower, broader contest: for ports and bases, for UN votes, for telecom infrastructure, for the political coloration of mid-sized powers. The US still leads in alliances and finance; China leads in infrastructure footprint; Russia operates as the spoiler-of-choice; the Gulf states now act as autonomous mid-powers in their own right.</p>
+
+      <div class="theaters">
+        <div class="th">
+          <div class="reg">Theater · Africa</div>
+          <h6>BRI vs. Mineral Diplomacy</h6>
+          <div class="d">China's <b>Belt &amp; Road</b> dominates infrastructure; Russia's <b>Africa Corps</b> replaces French/US troops in Sahel; UAE arms RSF. US counter-bid via Lobito Corridor and DRC mineral pacts.</div>
+          <div class="vs"><span class="w">USA · EU</span><span class="e">CHINA · RUSSIA · UAE</span></div>
+        </div>
+        <div class="th">
+          <div class="reg">Theater · Latin America</div>
+          <h6>The Caribbean Front</h6>
+          <div class="d">Possible US strikes on <b>Venezuela</b> ranked CFR's top new contingency. China holds Panama Canal terminals (until forced sale); Russia, Iran, Cuba prop up Maduro; cartel networks now quasi-state actors in Mexico.</div>
+          <div class="vs"><span class="w">USA</span><span class="e">CHINA · RUSSIA · IRAN · CUBA</span></div>
+        </div>
+        <div class="th">
+          <div class="reg">Theater · Indo-Pacific</div>
+          <h6>The Pacing Contest</h6>
+          <div class="d"><b>Taiwan Strait + SCS</b> remain the single highest-impact 2026 risk. AUKUS, Quad and US-Korea-Japan trilat tighten; Russia–North Korea pact links European and Pacific theatres.</div>
+          <div class="vs"><span class="w">USA · JPN · KOR · AUS · PHL</span><span class="e">CHINA · DPRK · RUSSIA</span></div>
+        </div>
+        <div class="th">
+          <div class="reg">Theater · Eurasia &amp; Arctic</div>
+          <h6>The Northern Bridge</h6>
+          <div class="d">Russia–China joint Arctic patrols, Northern Sea Route opening; Central Asia hedging between Beijing and Brussels; Türkiye carving an autonomous lane in Syria, Libya, and the Caucasus.</div>
+          <div class="vs"><span class="w">NATO · EU</span><span class="e">RUSSIA · CHINA · (TÜR)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+```
+
+  </section>
+
+  <!-- ─────────── PULL QUOTE ─────────── -->
+
+  <div class="pull">
+    <blockquote>
+      <q>The old world is dying, and the new world struggles to be born; now is the time of monsters.</q>
+      <cite>— Antonio Gramsci · cited by Carnegie on BRICS+ &amp; the G20, 2025</cite>
+    </blockquote>
+  </div>
+
+  <!-- ─────────── FOOTER ─────────── -->
+
+  <footer>
+    <div class="ftgrid">
+      <div>
+        <h6>Editorial Notes</h6>
+        <p class="bigmark">A war does not have to be declared to be a war. In 2026, much of the world's conflict is undeclared — fought in tariff schedules, export-licence applications, central-bank gold vaults, and the back rooms where mining concessions are signed.</p>
+        <p style="margin-top:18px">This dossier compresses an intentionally wide field. Coalitions are not treaty alliances; many states pictured on one side of a chip war (e.g. India, UAE) sit on the other side of a financial-rail war. Read the lines, not the flags.</p>
+      </div>
+      <div>
+        <h6>Primary Sources</h6>
+        <p class="sources">
+          ICG · Conflicts to Watch 2026<br/>
+          ACLED · Conflict Watchlist 2026<br/>
+          CFR · Preventive Priorities Survey<br/>
+          CSIS · CRINK Axis briefs &amp; charts<br/>
+          ISW · Russia-Ukraine Daily<br/>
+          NATO · Coalition of the Willing<br/>
+          Wilson Center / Atlantic Council · Sudan<br/>
+          Tax Foundation · Tariff Tracker 2026<br/>
+          USTR · Section 301 / 232 actions<br/>
+          BIS · AI export-control rule (Jan '26)<br/>
+          BRICS / NDB official communiqués<br/>
+          Reuters · HRW · Al Jazeera · FT · WSJ
+        </p>
+        <p style="margin-top:22px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--ink-4);text-transform:uppercase;">END · DOSSIER · 25-04-2026</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
